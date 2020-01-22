@@ -3,11 +3,11 @@ entries:
   mottainai:
   - apiVersion: v1
     appVersion: 0.0.1
-    created: "2019-05-17T23:17:02.233399135Z"
+    created: "2020-01-22T15:37:06.056368453Z"
     description: Mottainai Helm chart
-    digest: ad9eb77e4d6c5402d4e519d0d0d2a68905c1a4cf765b315635f267c2f4ae9b85
+    digest: 0ae02f34ffc5619a3506bb0bffaee08da57337f2d6e85a4069bc1efc570c88e1
     name: mottainai
     urls:
     - mottainai-0.0.1.tgz
     version: 0.0.1
-generated: "2019-05-17T23:17:02.233023888Z"
+generated: "2020-01-22T15:37:06.055541584Z"
