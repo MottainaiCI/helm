@@ -37,11 +37,11 @@ spec:
         - name: MOTTAINAI_DB__DB_NAME
           value: mottainai
         - name: MOTTAINAI_DB__ENGINE
-        {{- if .Values.arangodb.enabled -}}
+        {{- if .Values.arangodb.enabled }}
           value: arangodb
-        {{- else -}}
+        {{- else }}
           value: tiedot
-        {{- end -}}
+        {{- end }}
         - name: MOTTAINAI_STORAGE__ARTEFACT_PATH
           value: /srv/mottainai/web/artefact
         - name: MOTTAINAI_STORAGE__NAMESPACE_PATH
@@ -60,10 +60,10 @@ spec:
         - containerPort: 9090
         resources: {}
         volumeMounts:
-        {{- if not .Values.arangodb.enabled -}}
+        {{- if not .Values.arangodb.enabled }}
         - mountPath: /srv/mottainai/web/db
           name: mottainai-db
-        {{- end -}}
+        {{- end }}
         - mountPath: /srv/mottainai/web/artefact
           name: mottainai-artifacts
         - mountPath: /srv/mottainai/web/namespaces
@@ -72,11 +72,11 @@ spec:
           name: mottainai-storages
       restartPolicy: Always
       volumes:
-      {{- if not .Values.arangodb.enabled -}}
+      {{- if not .Values.arangodb.enabled }}
       - name: mottainai-db
         persistentVolumeClaim:
           claimName: mottainai-db
-      {{- end -}}
+      {{- end }}
       - name: mottainai-artifacts
         persistentVolumeClaim:
           claimName: mottainai-artifacts
