@@ -1,0 +1,17 @@
+{{- if .Values.arangodb.enabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: arangodb-data
+  name: arangodb-data
+spec:
+  storageClassName: {{ .Values.storageClass }}
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.volumeSize }}
+status: {}
+{{- end -}}

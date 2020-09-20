@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mottainai
+  name: mottainai
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: mottainai
+    spec:
+      containers:
+      - args:
+        - web
+        env:
+        - name: MOTTAINAI_BROKER__BROKER
+          value: "redis://{{.Values.redis.password}}@redis:6379/1"
+        - name: MOTTAINAI_BROKER__DEFAULT_QUEUE
+          value: standard
+        - name: MOTTAINAI_BROKER__EXCHANGE
+          value: jobs
+        - name: MOTTAINAI_BROKER__RESULT_BACKEND
+          value: "redis://{{.Values.redis.password}}@redis:6379/2"
+        - name: MOTTAINAI_BROKER__TYPE
+          value: redis
+        - name: MOTTAINAI_DB__DB_ENDPOINTS
+          value: http://arangodb:8529
+        - name: MOTTAINAI_DB__DB_NAME
+          value: mottainai
+        - name: MOTTAINAI_DB__ENGINE
+        {{- if .Values.arangodb.enabled -}}
+          value: arangodb
+        {{- else -}}
+          value: tiedot
+        {{- end -}}
+        - name: MOTTAINAI_STORAGE__ARTEFACT_PATH
+          value: /srv/mottainai/web/artefact
+        - name: MOTTAINAI_STORAGE__NAMESPACE_PATH
+          value: /srv/mottainai/web/namespaces
+        - name: MOTTAINAI_STORAGE__STORAGE_PATH
+          value: /srv/mottainai/web/storage
+        - name: MOTTAINAI_WEB__LISTENADDRESS
+          value: "0.0.0.0"
+        - name: MOTTAINAI_WEB__PORT
+          value: "9090"
+        - name: MOTTAINAI_WEB__ROOT_PATH
+          value: /var/lib/mottainai/
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: mottainai
+        ports:
+        - containerPort: 9090
+        resources: {}
+        volumeMounts:
+        {{- if not .Values.arangodb.enabled -}}
+        - mountPath: /srv/mottainai/web/db
+          name: mottainai-db
+        {{- end -}}
+        - mountPath: /srv/mottainai/web/artefact
+          name: mottainai-artifacts
+        - mountPath: /srv/mottainai/web/namespaces
+          name: mottainai-namespaces
+        - mountPath: /srv/mottainai/web/storage
+          name: mottainai-storages
+      restartPolicy: Always
+      volumes:
+      {{- if not .Values.arangodb.enabled -}}
+      - name: mottainai-db
+        persistentVolumeClaim:
+          claimName: mottainai-db
+      {{- end -}}
+      - name: mottainai-artifacts
+        persistentVolumeClaim:
+          claimName: mottainai-artifacts
+      - name: mottainai-namespaces
+        persistentVolumeClaim:
+          claimName: mottainai-namespaces
+      - name: mottainai-storages
+        persistentVolumeClaim:
+          claimName: mottainai-storages
+  selector:
+    matchLabels:
+      io.kompose.service: mottainai

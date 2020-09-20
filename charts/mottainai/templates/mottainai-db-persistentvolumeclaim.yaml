@@ -1,0 +1,17 @@
+{{- if not .Values.arangodb.enabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mottainai-db
+  name: mottainai-db
+spec:
+  storageClassName: {{ .Values.storageClass }}
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.volumeSize }}
+status: {}
+{{- end -}}
