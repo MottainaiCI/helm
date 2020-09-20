@@ -3,6 +3,16 @@ entries:
   mottainai:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2020-09-20T16:09:00.70610235Z"
+    description: Mottainai Helm chart
+    digest: e6e8fc2ab70591981c4a516104fce43ca6ac0ce256dc26743b8ce3285b870f50
+    name: mottainai
+    type: application
+    urls:
+    - https://github.com/MottainaiCI/helm-repo/releases/download/mottainai-0.0.4/mottainai-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2020-09-20T14:38:39.059654253Z"
     description: Mottainai Helm chart
     digest: 0c11ef80d18296b457a9561c07b439cb93c7d85d5412ffc7c2f8e4bc619d5549
