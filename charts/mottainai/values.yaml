@@ -14,12 +14,23 @@ image:
   repository: mottainaici/server
   pullPolicy: IfNotPresent
   tag: latest
+  fileIndex: "quay.io/mocaccino/nginx-file-browser:latest"
 
 fsGroup: 988
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+fileIndex:
+  enabled: true
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+    enabled: false
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
 arangodb:
   enabled: false
 

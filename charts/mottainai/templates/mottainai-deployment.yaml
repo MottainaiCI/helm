@@ -72,6 +72,19 @@ spec:
           name: mottainai-namespaces
         - mountPath: /srv/mottainai/web/storage
           name: mottainai-storages
+{{- if .Values.fileIndex.enabled }}
+      - name: nginx
+        image:  {{ .Values.image.fileIndex }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: "/opt/www/files/"
+          name: mottainai-namespaces
+        - name: nginx-config
+          mountPath: "/etc/nginx/conf.d"
+          readOnly: true
+{{- end }}
       restartPolicy: Always
       volumes:
       {{- if not .Values.arangodb.enabled }}
@@ -88,6 +101,11 @@ spec:
       - name: mottainai-storages
         persistentVolumeClaim:
           claimName: mottainai-storages
+{{- if .Values.fileIndex.enabled }}
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+{{- end }}
   selector:
     matchLabels:
       io.kompose.service: mottainai
