@@ -1,3 +1,4 @@
+
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -11,5 +12,5 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.artefactsVolumeSize }}
+      storage: {{ .Values.storagesVolumeSize }}
 status: {}

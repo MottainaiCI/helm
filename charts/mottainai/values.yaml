@@ -4,14 +4,18 @@
 
 replicaCount: 1
 artefactsVolumeSize: "100Gi"
-namespaceVolumeSize: "500Gi"
-volumeSize: "100Mi"
+namespaceVolumeSize: "200Gi"
+redisVolumeSize: "100Mi"
+arangoVolumeSize: "100Mi"
+dbVolumeSize: "10Gi"
+storagesVolumeSize: "5Gi"
 storageClass: longhorn
 image:
   repository: mottainaici/server
   pullPolicy: IfNotPresent
   tag: latest
 
+fsGroup: 988
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -46,7 +50,7 @@ service:
   port: 80
   redisPort: 6379
   #redisExternalIPs:
-  #- 
+  #-
   #-
 
 ingress:

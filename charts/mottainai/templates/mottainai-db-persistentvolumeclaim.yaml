@@ -12,6 +12,6 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.volumeSize }}
+      storage: {{ .Values.dbVolumeSize }}
 status: {}
 {{- end -}}

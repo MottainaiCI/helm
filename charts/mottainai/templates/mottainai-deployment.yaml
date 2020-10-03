@@ -18,6 +18,8 @@ spec:
       labels:
         io.kompose.service: mottainai
     spec:
+      securityContext:
+        fsGroup: {{ .Values.fsGroup }}
       containers:
       - args:
         - web
