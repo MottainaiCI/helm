@@ -93,8 +93,12 @@ spec:
           claimName: mottainai-db
       {{- end }}
       - name: mottainai-artifacts
+      {{- if .Values.persistent_artefacts.enabled }}
         persistentVolumeClaim:
           claimName: mottainai-artifacts
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
       - name: mottainai-namespaces
         persistentVolumeClaim:
           claimName: mottainai-namespaces
