@@ -90,6 +90,15 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+probes:
+  readiness:
+    enabled: true
+    initialDelaySeconds: 900
+    periodSeconds: 20
+  liveness:
+    enabled: true
+    initialDelaySeconds: 900
+    periodSeconds: 20
 nodeSelector: {}
 
 tolerations: []

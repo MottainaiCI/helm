@@ -58,6 +58,20 @@ spec:
           value: /var/lib/mottainai/
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: mottainai
+        {{- if .Values.probes.readiness.enabled }}
+        readinessProbe:
+          tcpSocket:
+            port: 9090
+          initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
+          periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
+        {{- end }}
+        {{- if .Values.probes.liveness.enabled }}
+        livenessProbe:
+          tcpSocket:
+            port: 9090
+          initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds }}
+          periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
+        {{- end }}
         ports:
         - containerPort: 9090
         resources: {}
@@ -86,6 +100,10 @@ spec:
           readOnly: true
 {{- end }}
       restartPolicy: Always
+      nodeSelector:
+{{- if .Values.nodeSelector }}
+{{ toYaml .Values.nodeSelector | trim | indent 8  }}
+{{- end }}
       volumes:
       {{- if not .Values.arangodb.enabled }}
       - name: mottainai-db
