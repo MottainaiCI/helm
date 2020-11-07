@@ -95,10 +95,17 @@ probes:
     enabled: true
     initialDelaySeconds: 900
     periodSeconds: 20
+    failureThreshold: 10
   liveness:
     enabled: true
     initialDelaySeconds: 900
-    periodSeconds: 20
+    failureThreshold: 10
+    periodSeconds: 10
+  startup:
+    enabled: true
+    failureThreshold: 90
+    initialDelaySeconds: 10
+    periodSeconds: 10
 nodeSelector: {}
 
 tolerations: []
