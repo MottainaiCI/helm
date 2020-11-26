@@ -4,6 +4,10 @@ metadata:
   annotations:
     kompose.cmd: ./kompose convert
     kompose.version: 1.16.0 (0c01309)
+  {{- with .Values.redis.annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+
   creationTimestamp: null
   labels:
     io.kompose.service: redis

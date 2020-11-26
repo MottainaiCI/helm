@@ -18,6 +18,9 @@ spec:
       labels:
         io.kompose.service: mottainai
     spec:
+      {{- if .Values.schedulerName }}
+      schedulerName: {{.Values.schedulerName}}
+      {{- end }}
       securityContext:
         fsGroup: {{ .Values.fsGroup }}
       containers:
@@ -38,6 +41,12 @@ spec:
           value: http://arangodb:8529
         - name: MOTTAINAI_DB__DB_NAME
           value: mottainai
+        {{- if .Values.arangodb.enabled }}
+        - name: MOTTAINAI_DB__DB_USER
+          value: root
+        - name: MOTTAINAI_DB__DB_PASSWORD
+          value: {{ .Values.arangodb.password }}
+        {{- end }}
         - name: MOTTAINAI_DB__ENGINE
         {{- if .Values.arangodb.enabled }}
           value: arangodb

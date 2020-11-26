@@ -18,6 +18,9 @@ spec:
       labels:
         io.kompose.service: redis
     spec:
+      {{- if .Values.schedulerName }}
+      schedulerName: {{.Values.schedulerName}}
+      {{- end }}
       containers:
       - args:
         - redis-server

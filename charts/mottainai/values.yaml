@@ -33,6 +33,7 @@ fileIndex:
     tls: []
 arangodb:
   enabled: false
+
 persistent_artefacts:
   enabled: false
 redis:

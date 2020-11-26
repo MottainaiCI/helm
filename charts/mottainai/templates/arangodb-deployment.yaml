@@ -19,14 +19,17 @@ spec:
       labels:
         io.kompose.service: arangodb
     spec:
+      {{- if .Values.schedulerName }}
+      schedulerName: {{.Values.schedulerName}}
+      {{- end }}
       containers:
       - args:
         - arangod
         - --server.endpoint
         - tcp://0.0.0.0:8529
         env:
-        - name: ARANGO_NO_AUTH
-          value: "1"
+        - name: ARANGO_ROOT_PASSWORD
+          value: {{ .Values.arangodb.password | quote }}
         image: arangodb/arangodb
         name: arangodb
         ports:
