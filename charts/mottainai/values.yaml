@@ -36,6 +36,9 @@ arangodb:
 
 persistent_artefacts:
   enabled: false
+
+persistent_namespaces:
+  enabled: false
 redis:
   password: "changeme"
 

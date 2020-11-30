@@ -14,13 +14,13 @@ spec:
     type: Recreate
   template:
     metadata:
-      creationTimestamp: null
       labels:
         io.kompose.service: mottainai
     spec:
       {{- if .Values.schedulerName }}
       schedulerName: {{.Values.schedulerName}}
       {{- end }}
+      automountServiceAccountToken: false
       securityContext:
         fsGroup: {{ .Values.fsGroup }}
       containers:
@@ -67,6 +67,13 @@ spec:
           value: /var/lib/mottainai/
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: mottainai
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: 500m
+          requests:
+            memory: 512Mi
+            cpu: 500m
         {{- if .Values.probes.readiness.enabled }}
         readinessProbe:
           httpGet:
@@ -96,7 +103,6 @@ spec:
         ports:
         - containerPort: 9090
           name: web-service
-        resources: {}
         volumeMounts:
         {{- if not .Values.arangodb.enabled }}
         - mountPath: /srv/mottainai/web/db
@@ -112,6 +118,13 @@ spec:
       - name: nginx
         image:  {{ .Values.image.fileIndex }}
         imagePullPolicy: Always
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: 200m
+          requests:
+            memory: 256Mi
+            cpu: 200m
         ports:
         - containerPort: 80
         volumeMounts:
@@ -140,8 +153,12 @@ spec:
         emptyDir: {}
       {{- end }}
       - name: mottainai-namespaces
+      {{- if .Values.persistent_namespaces.enabled }}
         persistentVolumeClaim:
           claimName: mottainai-namespaces
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
       - name: mottainai-storages
         persistentVolumeClaim:
           claimName: mottainai-storages

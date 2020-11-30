@@ -18,9 +18,14 @@ spec:
       labels:
         io.kompose.service: redis
     spec:
+      automountServiceAccountToken: false
       {{- if .Values.schedulerName }}
       schedulerName: {{.Values.schedulerName}}
       {{- end }}
+{{- with .Values.redis.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
       containers:
       - args:
         - redis-server
@@ -30,9 +35,15 @@ spec:
           value: "true"
         image: redis:4.0.5-alpine
         name: redis
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: 500m
+          requests:
+            memory: 256Mi
+            cpu: 500m
         ports:
         - containerPort: 6379
-        resources: {}
         volumeMounts:
         - mountPath: /data
           name: redis-data
