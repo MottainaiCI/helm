@@ -39,7 +39,20 @@ spec:
         name: arangodb
         ports:
         - containerPort: 8529
-        resources: {}
+        livenessProbe:
+          exec:
+            command:
+            - ls
+            - /var/lib/arangodb3/lost+found
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          limits:
+            memory: 1Gi
+            cpu: 1500m
+          requests:
+            memory: 1Gi
+            cpu: 1500m
         volumeMounts:
         - mountPath: /var/lib/arangodb3
           name: arangodb-data
