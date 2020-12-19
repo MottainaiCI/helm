@@ -11,12 +11,12 @@ dbVolumeSize: "10Gi"
 storagesVolumeSize: "5Gi"
 storageClass: longhorn
 image:
-  repository: mottainaici/server
+  repository: "quay.io/mottainai/server:latest"
   pullPolicy: IfNotPresent
   tag: latest
   fileIndex: "quay.io/mocaccino/nginx-file-browser:latest"
 
-fsGroup: 988
+fsGroup: 500
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
