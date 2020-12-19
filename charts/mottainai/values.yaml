@@ -11,7 +11,7 @@ dbVolumeSize: "10Gi"
 storagesVolumeSize: "5Gi"
 storageClass: longhorn
 image:
-  repository: "quay.io/mottainai/server:latest"
+  repository: "quay.io/mottainai/server"
   pullPolicy: IfNotPresent
   tag: latest
   fileIndex: "quay.io/mocaccino/nginx-file-browser:latest"
